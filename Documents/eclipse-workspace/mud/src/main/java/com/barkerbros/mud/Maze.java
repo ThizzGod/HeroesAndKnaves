@@ -3,7 +3,7 @@ package com.barkerbros.mud;
 
 public class Maze {
 	private Cell cell;
-	private Wall wall;
+	private Wall[][] mazeWalls;
 	private Maze maze;
 	private Grid grid;
 	/**
@@ -17,6 +17,11 @@ public class Maze {
 	
 	private void generateMaze(int size) {
 		this.grid = new Grid(size);
+		this.mazeWalls = generateMazeWalls(size);
 		
+	}
+	private Wall[][] generateMazeWalls(int size) {
+		Wall[][] walls = new Wall[size][size]; 
+		return walls;
 	}
 }
