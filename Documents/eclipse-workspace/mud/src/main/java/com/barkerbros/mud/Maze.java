@@ -56,19 +56,19 @@ public class Maze {
 	private void buildExteriorWall(int mazeSize) {
 		//left wall
 		for (int i = 0; i < mazeSize; i++) {
-			mazeWalls[i][0] = new Wall(i, 0, maze);
+			mazeWalls[i][0] = new Wall(i, 0, mazeWalls);
 		}
 		//top wall
 		for (int i = 0; i < mazeSize; i++) {
-			mazeWalls[0][i] = new Wall(0, i, maze);
+			mazeWalls[0][i] = new Wall(0, i, mazeWalls);
 		}
 		//right wall
 		for (int i = 0; i < mazeSize; i++) {
-			mazeWalls[i][mazeSize - 1] = new Wall(i, mazeSize - 1, maze);
+			mazeWalls[i][mazeSize - 1] = new Wall(i, mazeSize - 1, mazeWalls);
 		}
 		// bottom wall
 		for (int i = 0; i < mazeSize; i++) {
-			mazeWalls[mazeSize - 1][i] = new Wall(mazeSize - 1, i, maze);		
+			mazeWalls[mazeSize - 1][i] = new Wall(mazeSize - 1, i, mazeWalls);		
 		}
 	}
 	
@@ -81,7 +81,7 @@ public class Maze {
 		if (direction.equals("right")) {
 			for (int i = 0; i < mazeSize; i++) {
 				if (mazeWalls[startingRow + i + 1][startingCol] != null) break;
-				mazeWalls[startingRow + i + 1][startingCol] = new Wall(startingRow + i + 1, startingCol, maze);
+				mazeWalls[startingRow + i + 1][startingCol] = new Wall(startingRow + i + 1, startingCol, mazeWalls);
 			}
 		}
 	}

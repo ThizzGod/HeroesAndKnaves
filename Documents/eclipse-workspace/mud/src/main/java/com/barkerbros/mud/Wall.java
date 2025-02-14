@@ -7,16 +7,16 @@ public class Wall {
 	private int colCoordinate;
 	private ArrayList<String> legalDirections;
 	private boolean isBuildable;
-	private Maze maze;
+	public Wall[][] mazeWalls;
 	
-	public Wall(int rowCoordinate, int colCoordinate, Maze maze) {
+	public Wall(int rowCoordinate, int colCoordinate, Wall[][] mazeWalls) {
 		this.rowCoordinate = rowCoordinate;
 		this.colCoordinate = colCoordinate;
-		this.maze = maze;
+		this.mazeWalls = mazeWalls;
 	}
 	
 	private void createDirectionList() {
-		maze.getWalls();
+		
 	}
 }
 
