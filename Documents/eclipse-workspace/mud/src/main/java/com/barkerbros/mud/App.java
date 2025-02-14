@@ -7,7 +7,12 @@ public class App {
 	  System.out.println(maze);
 	  Wall[][] walls = maze.getWalls();
 	  System.out.println(walls);
-	  System.out.println(walls[0][0].mazeWalls);
+	  maze.getWalls()[0][2].createDirectionList();
+	  maze.getWalls()[2][0].createDirectionList();
+	  maze.getWalls()[10][2].createDirectionList();
+	  System.out.println(maze.getWalls()[0][2].legalDirections);
+	  System.out.println(maze.getWalls()[2][0].legalDirections);
+	  System.out.println(maze.getWalls()[10][2].legalDirections);
   }
 }
 
