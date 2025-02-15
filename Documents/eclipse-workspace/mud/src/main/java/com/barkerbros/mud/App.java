@@ -9,10 +9,14 @@ public class App {
 	  System.out.println(walls);
 	  maze.getWalls()[0][2].createDirectionList();
 	  maze.getWalls()[2][0].createDirectionList();
-	  maze.getWalls()[10][2].createDirectionList();
+	  maze.getWalls()[2][0].checkIsBuildable();
+	  maze.getWalls()[5][0].createDirectionList();
+	  maze.getWalls()[5][0].checkIsBuildable();
 	  System.out.println(maze.getWalls()[0][2].legalDirections);
 	  System.out.println(maze.getWalls()[2][0].legalDirections);
-	  System.out.println(maze.getWalls()[10][2].legalDirections);
+	  System.out.println(maze.getWalls()[5][0].legalDirections);
+	  System.out.println(maze.getWalls()[5][0].isBuildable);
+	  System.out.println(maze.getWalls()[2][0].isBuildable);
   }
 }
 

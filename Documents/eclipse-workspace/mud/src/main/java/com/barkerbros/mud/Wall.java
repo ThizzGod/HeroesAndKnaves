@@ -6,7 +6,7 @@ public class Wall {
 	public int rowCoordinate;
 	public int colCoordinate;
 	public ArrayList<String> legalDirections;
-	private boolean isBuildable;
+	public boolean isBuildable;
 	private Wall[][] mazeWalls;
 	
 	public Wall(int rowCoordinate, int colCoordinate, Wall[][] mazeWalls) {
@@ -51,6 +51,12 @@ public class Wall {
 			//No direction is added to the list
 		}
 	}
-
+	public void checkIsBuildable() {
+		if (rowCoordinate % 2 == 0 
+				&& colCoordinate % 2 == 0
+				&& legalDirections.size() > 0) {
+			isBuildable = true;
+		} else isBuildable = false;
+	}
 }
 
