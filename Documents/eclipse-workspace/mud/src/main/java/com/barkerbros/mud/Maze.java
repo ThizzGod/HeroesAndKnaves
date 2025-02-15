@@ -1,5 +1,7 @@
 package com.barkerbros.mud;
 
+import java.util.ArrayList;
+
 /**
  * Grids and walls are generated in a 2D array [row][col]
  * starting from [0][0] being the upper left cell
@@ -16,6 +18,7 @@ public class Maze {
 	private Wall[][] mazeWalls;
 	private Maze maze;
 	private Grid grid;
+	public ArrayList<Wall> buildableWallList;
 	/**
 	 * Constructor for generating a new maze.
 	 * @param size, will generate a maze of size x size cells
@@ -47,9 +50,11 @@ public class Maze {
 	private void generateMazeWalls(int size) {
 		this.mazeWalls = new Wall[size][size];
 		buildExteriorWall(size);
-		for (int i = 0; i < size * 10; i++) {
-			findExistingWall();
-		}
+		buildableWallList = new ArrayList<Wall>();
+		findBuildableWall();
+		//for (int i = 0; i < size * 10; i++) {
+		//	findBuildableWall();
+		//}
 		
 	}
 	
@@ -72,8 +77,8 @@ public class Maze {
 		}
 	}
 	
-	private void findExistingWall() {
-		
+	private void findBuildableWall() {
+		updateBuildableWallList();
 	}
 	
 	private void extendWall(String direction, int startingRow, int startingCol, 
@@ -85,6 +90,21 @@ public class Maze {
 			}
 		}
 	}
+	
+	private void updateBuildableWallList() {
+		for (int i = 0; i < mazeWalls[0].length; i++) {
+			for (int j = 0; j < mazeWalls[0].length; j++) {
+				if (mazeWalls[i][j] == null) continue;
+				mazeWalls[i][j].createDirectionList();
+				mazeWalls[i][j].checkIsBuildable();
+				System.out.println(mazeWalls[i][j].isBuildable);
+				if (mazeWalls[i][j].isBuildable) {
+					buildableWallList.add(mazeWalls[i][j]);
+				}
+			}
+		}
+	}
+	
 	public Wall[][] getWalls() {
 		return 	mazeWalls;
 	}
