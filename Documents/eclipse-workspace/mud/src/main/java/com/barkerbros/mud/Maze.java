@@ -100,36 +100,39 @@ public class Maze {
 			for (int i = 0; i < mazeSize; i++) {
 				if (mazeWalls[startingRow + i + 1][startingCol] != null) break;
 				mazeWalls[startingRow + i + 1][startingCol] = new Wall(startingRow + i + 1, startingCol, mazeWalls);
-				if (!mazeWalls[startingRow + i + 1][startingCol].isBuildable) {
-					destructableWalls.add(mazeWalls[startingRow + i + 1][startingCol]);
-				}
+				destructableWalls.add(mazeWalls[startingRow + i + 1][startingCol]);
+				
 			}
 		}
 		if (direction.equals("Up")) {
 			for (int i = 0; i < mazeSize; i++) {
 				if (mazeWalls[startingRow - i - 1][startingCol] != null) break;
 				mazeWalls[startingRow - i - 1][startingCol] = new Wall(startingRow - i - 1, startingCol, mazeWalls);
-				if (!mazeWalls[startingRow - i - 1][startingCol].isBuildable) {
-					destructableWalls.add(mazeWalls[startingRow - i - 1][startingCol]);
-				}
+				destructableWalls.add(mazeWalls[startingRow - i - 1][startingCol]);
+				
 			}
 		}
 		if (direction.equals("Left")) {
 			for (int i = 0; i < mazeSize; i++) {
 				if (mazeWalls[startingRow][startingCol - i - 1] != null) break;
 				mazeWalls[startingRow][startingCol - i - 1] = new Wall(startingRow, startingCol - i - 1, mazeWalls);
-				if (!mazeWalls[startingRow][startingCol -i - 1].isBuildable) {
-					destructableWalls.add(mazeWalls[startingRow][startingCol - i - 1]);
-				}
+				destructableWalls.add(mazeWalls[startingRow][startingCol - i - 1]);
+				
 			}
 		}
 		if (direction.equals("Right")) {
 			for (int i = 0; i < mazeSize; i++) {
 				if (mazeWalls[startingRow][startingCol + i +1] != null) break;
 				mazeWalls[startingRow][startingCol + i + 1] = new Wall(startingRow, startingCol + i + 1, mazeWalls);
-				if (!mazeWalls[startingRow][startingCol + i + 1].isBuildable) {
-					destructableWalls.add(mazeWalls[startingRow][startingCol + i + 1]);
-				}
+				destructableWalls.add(mazeWalls[startingRow][startingCol + i + 1]);
+	
+			}
+		}
+		for (int i = 0; i < destructableWalls.size(); i++) {
+			Wall destroyWall = destructableWalls.get(i);
+			if (destroyWall.colCoordinate % 2 == 0 &&
+					destroyWall.rowCoordinate % 2 == 0) {
+				destructableWalls.remove(i);
 			}
 		}
 		int removeWallIndex = random.nextInt(destructableWalls.size());
