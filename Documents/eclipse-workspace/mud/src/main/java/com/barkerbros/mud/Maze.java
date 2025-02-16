@@ -15,10 +15,8 @@ import java.util.Random;
  */
 
 public class Maze {
-	private Cell cell;
 	private Wall[][] mazeWalls;
-	private Maze maze;
-	private Grid grid;
+	private Cell[][] grid;
 	public ArrayList<Wall> buildableWallList;
 	/**
 	 * Constructor for generating a new maze.
@@ -33,7 +31,8 @@ public class Maze {
 	 * @param size the maximum size of grid and walls, given in constructor
 	 */
 	private void generateMaze(int size) {
-		this.grid = new Grid(size);
+		Grid grid = new Grid(size);
+		this.grid = grid.getGrid();
 		generateMazeWalls(size);
 		
 	}
@@ -148,7 +147,6 @@ public class Maze {
 				mazeWalls[i][j].createDirectionList();
 				mazeWalls[i][j].checkIsBuildable();
 				if (mazeWalls[i][j].isBuildable && !(buildableWallList.contains(mazeWalls[i][j]))) {
-					System.out.println(mazeWalls[i][j]);
 					buildableWallList.add(mazeWalls[i][j]);
 				}
 			}
