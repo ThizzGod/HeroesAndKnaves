@@ -1,6 +1,7 @@
 package com.barkerbros.mud;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Grids and walls are generated in a 2D array [row][col]
@@ -51,7 +52,11 @@ public class Maze {
 		this.mazeWalls = new Wall[size][size];
 		buildExteriorWall(size);
 		buildableWallList = new ArrayList<Wall>();
-		findBuildableWall();
+		updateBuildableWallList();
+		while (buildableWallList.size() > 0) {
+			findBuildableWall();
+			// calling findBuildableWall will also call extend wall
+		}
 		//for (int i = 0; i < size * 10; i++) {
 		//	findBuildableWall();
 		//}
@@ -79,26 +84,51 @@ public class Maze {
 	
 	private void findBuildableWall() {
 		updateBuildableWallList();
+		if (buildableWallList.size() <= 0) return;
+		Random random = new Random();
+		int randomIndex = random.nextInt(buildableWallList.size());
+		Wall selectedWall = buildableWallList.get(randomIndex);
+		String directionString = selectedWall.getRandomDirection();
+		extendWall(directionString, selectedWall.rowCoordinate, selectedWall.colCoordinate, mazeWalls[0].length);
 	}
 	
 	private void extendWall(String direction, int startingRow, int startingCol, 
 			int mazeSize) {
-		if (direction.equals("right")) {
+		if (direction.equals("Down")) {
 			for (int i = 0; i < mazeSize; i++) {
 				if (mazeWalls[startingRow + i + 1][startingCol] != null) break;
 				mazeWalls[startingRow + i + 1][startingCol] = new Wall(startingRow + i + 1, startingCol, mazeWalls);
 			}
 		}
+		if (direction.equals("Up")) {
+			for (int i = 0; i < mazeSize; i++) {
+				if (mazeWalls[startingRow - i - 1][startingCol] != null) break;
+				mazeWalls[startingRow - i - 1][startingCol] = new Wall(startingRow - i - 1, startingCol, mazeWalls);
+			}
+		}
+		if (direction.equals("Left")) {
+			for (int i = 0; i < mazeSize; i++) {
+				if (mazeWalls[startingRow][startingCol - i - 1] != null) break;
+				mazeWalls[startingRow][startingCol - i - 1] = new Wall(startingRow, startingCol - i - 1, mazeWalls);
+			}
+		}
+		if (direction.equals("Right")) {
+			for (int i = 0; i < mazeSize; i++) {
+				if (mazeWalls[startingRow][startingCol + i +1] != null) break;
+				mazeWalls[startingRow][startingCol + i + 1] = new Wall(startingRow, startingCol + i + 1, mazeWalls);
+			}
+		}
 	}
 	
 	private void updateBuildableWallList() {
+		buildableWallList.clear();
 		for (int i = 0; i < mazeWalls[0].length; i++) {
 			for (int j = 0; j < mazeWalls[0].length; j++) {
 				if (mazeWalls[i][j] == null) continue;
 				mazeWalls[i][j].createDirectionList();
 				mazeWalls[i][j].checkIsBuildable();
-				System.out.println(mazeWalls[i][j].isBuildable);
-				if (mazeWalls[i][j].isBuildable) {
+				if (mazeWalls[i][j].isBuildable && !(buildableWallList.contains(mazeWalls[i][j]))) {
+					System.out.println(mazeWalls[i][j]);
 					buildableWallList.add(mazeWalls[i][j]);
 				}
 			}

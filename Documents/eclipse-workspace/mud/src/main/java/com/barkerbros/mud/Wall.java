@@ -1,6 +1,7 @@
 package com.barkerbros.mud;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Wall {
 	public int rowCoordinate;
@@ -17,6 +18,7 @@ public class Wall {
 	}
 	
 	public void createDirectionList() {
+		legalDirections.clear();
 		try {
 			if (mazeWalls[rowCoordinate + 1][colCoordinate] == null 
 					&& mazeWalls[rowCoordinate + 2][colCoordinate] == null) {
@@ -57,6 +59,11 @@ public class Wall {
 				&& legalDirections.size() > 0) {
 			isBuildable = true;
 		} else isBuildable = false;
+	}
+	public String getRandomDirection() {
+		Random random = new Random();
+		int index = random.nextInt(legalDirections.size());
+		return legalDirections.get(index);
 	}
 }
 
