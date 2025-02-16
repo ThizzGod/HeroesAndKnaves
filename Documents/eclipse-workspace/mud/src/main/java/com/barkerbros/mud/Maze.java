@@ -94,30 +94,47 @@ public class Maze {
 	
 	private void extendWall(String direction, int startingRow, int startingCol, 
 			int mazeSize) {
+		ArrayList<Wall> destructableWalls = new ArrayList<Wall>();
+		Random random = new Random();
 		if (direction.equals("Down")) {
 			for (int i = 0; i < mazeSize; i++) {
 				if (mazeWalls[startingRow + i + 1][startingCol] != null) break;
 				mazeWalls[startingRow + i + 1][startingCol] = new Wall(startingRow + i + 1, startingCol, mazeWalls);
+				if (!mazeWalls[startingRow + i + 1][startingCol].isBuildable) {
+					destructableWalls.add(mazeWalls[startingRow + i + 1][startingCol]);
+				}
 			}
 		}
 		if (direction.equals("Up")) {
 			for (int i = 0; i < mazeSize; i++) {
 				if (mazeWalls[startingRow - i - 1][startingCol] != null) break;
 				mazeWalls[startingRow - i - 1][startingCol] = new Wall(startingRow - i - 1, startingCol, mazeWalls);
+				if (!mazeWalls[startingRow - i - 1][startingCol].isBuildable) {
+					destructableWalls.add(mazeWalls[startingRow - i - 1][startingCol]);
+				}
 			}
 		}
 		if (direction.equals("Left")) {
 			for (int i = 0; i < mazeSize; i++) {
 				if (mazeWalls[startingRow][startingCol - i - 1] != null) break;
 				mazeWalls[startingRow][startingCol - i - 1] = new Wall(startingRow, startingCol - i - 1, mazeWalls);
+				if (!mazeWalls[startingRow][startingCol -i - 1].isBuildable) {
+					destructableWalls.add(mazeWalls[startingRow][startingCol - i - 1]);
+				}
 			}
 		}
 		if (direction.equals("Right")) {
 			for (int i = 0; i < mazeSize; i++) {
 				if (mazeWalls[startingRow][startingCol + i +1] != null) break;
 				mazeWalls[startingRow][startingCol + i + 1] = new Wall(startingRow, startingCol + i + 1, mazeWalls);
+				if (!mazeWalls[startingRow][startingCol + i + 1].isBuildable) {
+					destructableWalls.add(mazeWalls[startingRow][startingCol + i + 1]);
+				}
 			}
 		}
+		int removeWallIndex = random.nextInt(destructableWalls.size());
+		Wall removeWall = destructableWalls.get(removeWallIndex);
+		mazeWalls[removeWall.rowCoordinate][removeWall.colCoordinate] = null;
 	}
 	
 	private void updateBuildableWallList() {
@@ -137,5 +154,19 @@ public class Maze {
 	
 	public Wall[][] getWalls() {
 		return 	mazeWalls;
+	}
+	public String toString() {
+		String consoleMaze = "";
+		for (int row = 0; row < mazeWalls.length; row++) {
+			for (int col = 0; col < mazeWalls.length; col++) {
+				if (mazeWalls[row][col] == null) {
+					consoleMaze += "  ";
+				} else {
+					consoleMaze += "@ ";
+				}
+			}
+			consoleMaze += "\n";
+		}
+		return consoleMaze;
 	}
 }
