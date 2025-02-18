@@ -17,7 +17,7 @@ import java.util.Random;
 public class Maze {
 	private Wall[][] mazeWalls;
 	private Cell[][] grid;
-	public ArrayList<Wall> buildableWallList;
+	private ArrayList<Wall> buildableWallList;
 	/**
 	 * Constructor for generating a new maze.
 	 * @param size, will generate a maze of size x size cells
@@ -101,7 +101,7 @@ public class Maze {
 		int randomIndex = random.nextInt(buildableWallList.size());
 		Wall selectedWall = buildableWallList.get(randomIndex);
 		String directionString = selectedWall.getRandomDirection();
-		extendWall(directionString, selectedWall.rowCoordinate, selectedWall.colCoordinate, mazeWalls[0].length);
+		extendWall(directionString, selectedWall.getRowCoordinate(), selectedWall.getColCoordinate(), mazeWalls[0].length);
 	}
 	
 	/**
@@ -150,14 +150,14 @@ public class Maze {
 		}
 		for (int i = 0; i < destructableWalls.size(); i++) {
 			Wall destroyWall = destructableWalls.get(i);
-			if (destroyWall.colCoordinate % 2 == 0 &&
-					destroyWall.rowCoordinate % 2 == 0) {
+			if (destroyWall.getColCoordinate() % 2 == 0 &&
+					destroyWall.getRowCoordinate() % 2 == 0) {
 				destructableWalls.remove(i);
 			}
 		}
 		int removeWallIndex = random.nextInt(destructableWalls.size());
 		Wall removeWall = destructableWalls.get(removeWallIndex);
-		mazeWalls[removeWall.rowCoordinate][removeWall.colCoordinate] = null;
+		mazeWalls[removeWall.getRowCoordinate()][removeWall.getColCoordinate()] = null;
 	}
 	
 	/**
@@ -172,7 +172,7 @@ public class Maze {
 				if (mazeWalls[i][j] == null) continue;
 				mazeWalls[i][j].createDirectionList();
 				mazeWalls[i][j].checkIsBuildable();
-				if (mazeWalls[i][j].isBuildable && !(buildableWallList.contains(mazeWalls[i][j]))) {
+				if (mazeWalls[i][j].getIsBuildable() && !(buildableWallList.contains(mazeWalls[i][j]))) {
 					buildableWallList.add(mazeWalls[i][j]);
 				}
 			}

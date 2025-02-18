@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Wall {
-	public int rowCoordinate;
-	public int colCoordinate;
-	public ArrayList<String> legalDirections;
-	public boolean isBuildable;
+	private int rowCoordinate;
+	private int colCoordinate;
+	private ArrayList<String> legalDirections;
+	private boolean isBuildable;
 	private Wall[][] mazeWalls;
 	
 	/**
@@ -93,6 +93,31 @@ public class Wall {
 		Random random = new Random();
 		int index = random.nextInt(legalDirections.size());
 		return legalDirections.get(index);
+	}
+	
+	/**
+	 * Getter method for "rowCoordinate" instance variable.
+	 * @return an int representing the row coordinate of the Wall.
+	 */
+	public int getRowCoordinate() {
+		return rowCoordinate;
+	}
+	
+	/**
+	 * Getter method for "colCoordinate" instance variable.
+	 * @return an int representing the column coordinate of the Wall.
+	 */
+	public int getColCoordinate() {
+		return colCoordinate;
+	}
+
+	/**
+	 * Getter method for "isBuildable" instance variable.
+	 * @return a boolean representing whether or not the Wall object
+	 * is legal to build from.
+	 */
+	public boolean getIsBuildable() {
+		return isBuildable;
 	}
 }
 
