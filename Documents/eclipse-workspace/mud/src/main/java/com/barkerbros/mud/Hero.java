@@ -1,6 +1,8 @@
 package com.barkerbros.mud;
 
 import java.util.Scanner;
+import java.util.List;
+import java.util.Arrays;
 
 
 public class Hero {
@@ -19,16 +21,19 @@ public class Hero {
         this.hp = 20;
     }
 
-    public Hero() { 
+   // public Hero() { 
         
 
-    }
+   // }
 
   
 
     public void printHealth() {
         System.out.println(this.hp);
     }
+
+    // gets players direction of movement when move is
+    // selected as non battle action
 
 	public void pInput() {
 	
@@ -38,12 +43,15 @@ public class Hero {
         
        }
     
+    /*Find walls in relation to player characters current position and,
+        if move is valid, continue to move method*/
 
     public boolean findWalls() {
-     //int rowPos = rowPos();
-     //int colPos = colPos();
+    
 
 	
+        List<String> validInputs = Arrays.asList(
+        "left", "right", "down", "up");
 
         if ((playerInput.equals("down")) && 
         (this.maze.getWalls()[rowPos + 1][colPos] != null)) {
@@ -64,14 +72,24 @@ public class Hero {
         (this.maze.getWalls()[rowPos][colPos - 1] != null)) {
             System.out.println("Cannot move here!");
             return true;
+        } if (!validInputs.contains(playerInput)) {
+            System.out.println("Invalid entry!");
+            return true;
         }
-        else {
+        else if (validInputs.contains(playerInput)) {
             move();
             return false;
 
         }
+        else {
+            return true;
+        }
+        //returns true if wall is present in direction of attempted move
+        //or if proper direction is not given
     }
 
+
+    //updates players position if valid movement is entered
 
     private void move() {
         if (playerInput.equals("down")) {
@@ -86,16 +104,20 @@ public class Hero {
          else if (playerInput.equals("left")) {
              colPos = (colPos - 1);
          }
+        
 
     }
     public void takeDamage(int dmg) {
         this.hp -= dmg;
     }
 
+        //rowPos getter
     public int getRowPos() {
         System.out.println(rowPos);
         return rowPos;
     }
+
+        //colPos getter
     public int getColPos() {
         System.out.println(colPos);
         return colPos;
