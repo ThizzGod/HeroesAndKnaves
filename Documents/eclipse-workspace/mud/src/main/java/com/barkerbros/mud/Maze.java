@@ -156,18 +156,37 @@ public class Maze {
 	public Wall[][] getWalls() {
 		return 	mazeWalls;
 	}
+
+	
+	
 	public String toString() {
 		String consoleMaze = "";
+		
+		//Hero hero = new Hero();
+
+		//int rowPos = hero.getRowPos();
+		//int colPos = hero.getColPos();
+		Maze maze = new Maze(21);
+		Hero hero = new Hero(maze);
+		
 		for (int row = 0; row < mazeWalls.length; row++) {
 			for (int col = 0; col < mazeWalls.length; col++) {
+				if ((row == (hero.rowPos)) && (col == hero.colPos)) {
+					consoleMaze += "H";
+				}
 				if (mazeWalls[row][col] == null) {
 					consoleMaze += "  ";
-				} else {
+				}
+				 else {
 					consoleMaze += "@ ";
 				}
+				
 			}
 			consoleMaze += "\n";
 		}
+
+		
+		
 		return consoleMaze;
 	}
 }
