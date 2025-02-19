@@ -192,7 +192,7 @@ public class Maze {
 	 * toString method for the Maze class. The string represents the location of
 	 * all walls and of the player in the 2D array of the maze.
 	 */
-	public String toString() {
+	public String toString(Hero hero) {
 		String consoleMaze = "";
 		
 		
@@ -203,7 +203,7 @@ public class Maze {
 		
 		for (int row = 0; row < mazeWalls.length; row++) {
 			for (int col = 0; col < mazeWalls.length; col++) {
-				if (mazeWalls[row][col] == null) {
+				
 				if ((row == (rowPos)) && (col == colPos)) {
 					
 					consoleMaze += "H ";

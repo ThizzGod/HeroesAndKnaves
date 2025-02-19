@@ -10,7 +10,7 @@ public class Encounters {
     private Hero hero;
     private ArrayList<int[]> exploredCells;
 
-    int chance = 50;
+    int chance = 30;
 
     //start encounter test from app
 
