@@ -17,7 +17,7 @@ import java.util.Random;
 public class Maze {
 	private Wall[][] mazeWalls;
 	private Cell[][] grid;
-	public ArrayList<Wall> buildableWallList;
+	private ArrayList<Wall> buildableWallList;
 	/**
 	 * Constructor for generating a new maze.
 	 * @param size, will generate a maze of size x size cells
@@ -56,12 +56,16 @@ public class Maze {
 			findBuildableWall();
 			// calling findBuildableWall will also call extend wall
 		}
-		//for (int i = 0; i < size * 10; i++) {
-		//	findBuildableWall();
-		//}
 		
 	}
 	
+	/**
+	 * Generates the perimeter walls for the mazeWalls variable.
+	 * Re-assigns all the outermost indices of that 2D array of walls
+	 * from "null" to a new Wall object.
+	 * @param mazeSize the size of the mazeWalls object passed in from the
+	 * generateMazeWalls method.
+	 */
 	private void buildExteriorWall(int mazeSize) {
 		//left wall
 		for (int i = 0; i < mazeSize; i++) {
@@ -81,6 +85,15 @@ public class Maze {
 		}
 	}
 	
+	/**
+	 * Finds a wall which is legal to build another wall off of.
+	 * A legal wall is a wall which is at an even row and collumn coordinate
+	 * and can be extended in at least one direction by at least 2 walls 
+	 * before encountering another Wall object.
+	 * The method finds a random buildable wall, picks an allowed direction
+	 * for that wall, and then calls extend wall to build more wall objects 
+	 * in that direction.
+	 */
 	private void findBuildableWall() {
 		updateBuildableWallList();
 		if (buildableWallList.size() <= 0) return;
@@ -88,9 +101,17 @@ public class Maze {
 		int randomIndex = random.nextInt(buildableWallList.size());
 		Wall selectedWall = buildableWallList.get(randomIndex);
 		String directionString = selectedWall.getRandomDirection();
-		extendWall(directionString, selectedWall.rowCoordinate, selectedWall.colCoordinate, mazeWalls[0].length);
+		extendWall(directionString, selectedWall.getRowCoordinate(), selectedWall.getColCoordinate(), mazeWalls[0].length);
 	}
 	
+	/**
+	 * Extends a wall object by adding new wall objects to the mazeWalls array
+	 * in a specified direction.
+	 * @param direction the direction in which the wall object will be extended.
+	 * @param startingRow the row coordinate of the wall which will be extended.
+	 * @param startingCol the column coordinate of the wall which will be extended.
+	 * @param mazeSize the size of the mazeWalls object.
+	 */
 	private void extendWall(String direction, int startingRow, int startingCol, 
 			int mazeSize) {
 		ArrayList<Wall> destructableWalls = new ArrayList<Wall>();
@@ -129,16 +150,21 @@ public class Maze {
 		}
 		for (int i = 0; i < destructableWalls.size(); i++) {
 			Wall destroyWall = destructableWalls.get(i);
-			if (destroyWall.colCoordinate % 2 == 0 &&
-					destroyWall.rowCoordinate % 2 == 0) {
+			if (destroyWall.getColCoordinate() % 2 == 0 &&
+					destroyWall.getRowCoordinate() % 2 == 0) {
 				destructableWalls.remove(i);
 			}
 		}
 		int removeWallIndex = random.nextInt(destructableWalls.size());
 		Wall removeWall = destructableWalls.get(removeWallIndex);
-		mazeWalls[removeWall.rowCoordinate][removeWall.colCoordinate] = null;
+		mazeWalls[removeWall.getRowCoordinate()][removeWall.getColCoordinate()] = null;
 	}
 	
+	/**
+	 * Creates a list of buildable walls. The reference to this list is stored
+	 * in the "buildableWallList" variable. The list is created from scratch each
+	 * time this method is called.
+	 */
 	private void updateBuildableWallList() {
 		buildableWallList.clear();
 		for (int i = 0; i < mazeWalls[0].length; i++) {
@@ -146,20 +172,27 @@ public class Maze {
 				if (mazeWalls[i][j] == null) continue;
 				mazeWalls[i][j].createDirectionList();
 				mazeWalls[i][j].checkIsBuildable();
-				if (mazeWalls[i][j].isBuildable && !(buildableWallList.contains(mazeWalls[i][j]))) {
+				if (mazeWalls[i][j].getIsBuildable() && !(buildableWallList.contains(mazeWalls[i][j]))) {
 					buildableWallList.add(mazeWalls[i][j]);
 				}
 			}
 		}
 	}
 	
+	/**
+	 * Getter method for the "mazeWalls" instance variable.
+	 * @return a reference to "mazeWalls".
+	 */
 	public Wall[][] getWalls() {
 		return 	mazeWalls;
 	}
 
 	
-	
-	public String toString(Hero hero) {
+	/**
+	 * toString method for the Maze class. The string represents the location of
+	 * all walls and of the player in the 2D array of the maze.
+	 */
+	public String toString() {
 		String consoleMaze = "";
 		
 		
@@ -170,6 +203,7 @@ public class Maze {
 		
 		for (int row = 0; row < mazeWalls.length; row++) {
 			for (int col = 0; col < mazeWalls.length; col++) {
+				if (mazeWalls[row][col] == null) {
 				if ((row == (rowPos)) && (col == colPos)) {
 					
 					consoleMaze += "H ";
