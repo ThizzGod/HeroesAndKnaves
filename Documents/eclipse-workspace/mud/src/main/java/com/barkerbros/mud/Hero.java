@@ -9,8 +9,8 @@ public class Hero {
     private int hp;
     private int atk;
     String playerInput = "";
-    public int rowPos = 1;
-    public int colPos = 1;
+    private int rowPos = 1;
+    private int colPos = 1;
     private Maze maze;
 
     public Hero(Maze maze) {
@@ -104,6 +104,8 @@ public class Hero {
          else if (playerInput.equals("left")) {
              colPos = (colPos - 1);
          }
+
+         
         
 
     }
@@ -113,13 +115,13 @@ public class Hero {
 
         //rowPos getter
     public int getRowPos() {
-        System.out.println(rowPos);
+        
         return rowPos;
     }
 
         //colPos getter
     public int getColPos() {
-        System.out.println(colPos);
+        
         return colPos;
     }
 

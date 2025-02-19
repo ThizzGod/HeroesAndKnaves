@@ -1,30 +1,67 @@
 package com.barkerbros.mud;
 
 import java.util.Random;
+import java.util.ArrayList;
+//import java.util.List;
+import java.util.Arrays;
 
 public class Encounters {
 
     private Hero hero;
+    private ArrayList<int[]> exploredCells;
+
+    int chance = 50;
+
+    //start encounter test from app
 
     public Encounters(Hero hero) {
         this.hero = hero;
-        encounterPicker();
+        exploredCells = new ArrayList<>();
+        encounterChance();
     }
-    int chance = 25;
+
+
+
+    // uses chance variable to provide updateable odds
+    // of an encounter in each cell. Needs functionally
+    // added to prevent multiple encounter in one cell
 
     public boolean encounterChance() {
+       
         Random random = new Random();
         int encounter = random.nextInt(100);
+        int[] currentCell = new int[2];
+        int rowPos = hero.getRowPos();
+        int colPos = hero.getColPos();
+        currentCell[0] = rowPos;
+        currentCell[1] = colPos;
+
+        for (int cell = 0; cell < exploredCells.size(); cell++) {
+
+            // Still taking damage on explored cells, if statement always false
+            if (Arrays.equals(currentCell, exploredCells.get(cell))) {
+                return false;
+            }
+            
+        }
         if (encounter < chance) {
+            
             encounterPicker();
             return true;
-          
         } else {
+          
             return false;
         }
+        
+        // return true if random number generated is
+        // less than chance variable and start
+        // encounterPicker method
 
     }
     
+    // picks random encounter to run when encounter
+    // chance returns true
+
     public void encounterPicker() {
         Random random = new Random();
         int encounter = random.nextInt(1);
@@ -96,6 +133,17 @@ public class Encounters {
 
     public void battle(Monster orc) {
         hero.takeDamage(orc.attackHero());
+    }
+
+    //add heroes previous positions to list
+
+    public void    addCurrentCell() {
+        int[] exploredCell = new int[2];
+         int rowPos = hero.getRowPos();
+         int colPos = hero.getColPos();
+         exploredCell[0] = rowPos;
+         exploredCell[1] = colPos;
+         exploredCells.add(exploredCell);
     }
 
     

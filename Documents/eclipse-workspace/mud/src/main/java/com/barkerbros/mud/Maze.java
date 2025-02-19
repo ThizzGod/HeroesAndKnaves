@@ -159,22 +159,22 @@ public class Maze {
 
 	
 	
-	public String toString() {
+	public String toString(Hero hero) {
 		String consoleMaze = "";
 		
-		//Hero hero = new Hero();
-
-		//int rowPos = hero.getRowPos();
-		//int colPos = hero.getColPos();
+		
+		
 		Maze maze = new Maze(21);
-		Hero hero = new Hero(maze);
+		int rowPos = hero.getRowPos();
+		int colPos = hero.getColPos();
 		
 		for (int row = 0; row < mazeWalls.length; row++) {
 			for (int col = 0; col < mazeWalls.length; col++) {
-				if ((row == (hero.rowPos)) && (col == hero.colPos)) {
-					consoleMaze += "H";
+				if ((row == (rowPos)) && (col == colPos)) {
+					
+					consoleMaze += "H ";
 				}
-				if (mazeWalls[row][col] == null) {
+				else if (mazeWalls[row][col] == null) {
 					consoleMaze += "  ";
 				}
 				 else {

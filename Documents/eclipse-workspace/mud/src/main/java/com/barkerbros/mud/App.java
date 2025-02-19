@@ -8,13 +8,14 @@ public class App {
     Hero hero = new Hero(maze);
 	 
     
-    for (int i = 0; i<10; i++) {
-      System.out.println(maze);
+    for (int i = 0; i<30; i++) {
+      System.out.println(maze.toString(hero));
     System.out.println("Enter direction");
     hero.pInput();
     boolean wall = hero.findWalls();
     if (wall) continue;
     Encounters encounter = new Encounters(hero);
+    encounter.addCurrentCell();
     
     hero.printHealth();
   }
